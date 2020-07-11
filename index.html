@@ -1,0 +1,42 @@
+<!DOCTYPE HTML>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>YZ</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed&family=Source+Sans+Pro&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="diceLayout">
+        <ul><img id="dice-one" src="img/1.png"></ul>
+        <ul><img id="dice-two" src="img/2.png"></ul>
+        <ul><img id="dice-three" src="img/3.png"></ul>
+        <ul><img id="dice-four" src="img/4.png"></ul>
+        <ul><img id="dice-five" src="img/5.png"></ul>
+      </div>
+      <div class="rightSide">
+        <div class="scoreboard header"><u>Possible Scores</u></div>
+        <div class="scoreboard content">
+          <ul id="one"></ul>
+          <ul id="two"></ul>
+          <ul id="three"></ul>
+          <ul id="four"></ul>
+          <ul id="five"></ul>
+          <ul id="six"></ul>
+          <ul id="fullhouse"></ul>
+          <ul id="3ofakind"></ul>
+          <ul id="4ofakind"></ul>
+          <ul id="smallstraight"></ul>
+          <ul id="largestraight"></ul>
+          <ul id="yahtzee"></ul>
+          <ul id="chance"></ul>
+        </div>
+      </div>
+    </div>
+    <div>
+      <button class="button hover" type="button" onclick="rollDice()">Roll!</button>
+    </div>
+  </body>
+  <script src="main.js"></script>
+  </html>

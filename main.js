@@ -1,97 +1,224 @@
+// Global vars
+var currentRoll = 1;
+var totalScore = 0;
+var isGameOver = false;
+let diceArray = [
+	{
+		name: 'die1',
+		die: '1',
+		number: getRandomNumber(),
+		held: false
+	},
+	{
+		name: 'die2',
+		die: '2',
+		number: getRandomNumber(),
+		held: false
+	},
+	{
+		name: 'die3',
+		die: '3',
+		number: getRandomNumber(),
+		held: false
+	},
+	{
+		name: 'die4',
+		die: '4',
+		number: getRandomNumber(),
+		held: false
+	},
+	{
+		name: 'die5',
+		die: '5',
+		number: getRandomNumber(),
+		held: false
+	}
+];
+
+let scoreButtonArray = [
+	'oneScoreButton',
+	'twoScoreButton',
+	'threeScoreButton',
+	'fourScoreButton',
+	'fiveScoreButton',
+	'sixScoreButton',
+	'fhScoreButton',
+	'threeoakScoreButton',
+	'fouroakScoreButton',
+	'ssScoreButton',
+	'lsScoreButton',
+	'chanceScoreButton'
+];
+
+let checkboxArray = [ 'dieCheck1', 'dieCheck2', 'dieCheck3', 'dieCheck4', 'dieCheck5' ];
+
 function isFullHouse(diceArray) {
 	// If X X X Y Y
-	if (diceArray[0] == diceArray[1] && diceArray[1] == diceArray[2] && diceArray[3] == diceArray[4]) {
+	if (
+		diceArray[0].number.number == diceArray[1].number &&
+		diceArray[1].number == diceArray[2].number &&
+		diceArray[3].number == diceArray[4].number
+	) {
 		console.log('Found Full House');
-		document.getElementById('fullhouse').innerHTML = 'Full house';
+		document.getElementById('fhScoreButton').disabled = false;
 		return true;
-	} else if (diceArray[0] == diceArray[1] && diceArray[2] == diceArray[3] && diceArray[3] == diceArray[4]) {
+	} else if (
+		diceArray[0].number == diceArray[1].number &&
+		diceArray[2].number == diceArray[3].number &&
+		diceArray[3].number == diceArray[4].number
+	) {
 		// If X X Y Y Y
 		console.log('Found Full House');
-		document.getElementById('fullhouse').innerHTML = 'Full house';
+		document.getElementById('fhScoreButton').disabled = false;
 		return true;
 	} else {
-		document.getElementById('fullhouse').innerHTML = null;
 		return false;
 	}
+}
+
+function scoreFullHouse() {
+	// 25 points
+	totalScore += 25;
+	console.log('User won 25 points with a Full House!');
+	updateScore();
+	// Function for board reset
+	resetBoard();
+	document.getElementById('rollNumber').disabled = false;
 }
 
 function isThreeOfKind(diceArray) {
-	if (diceArray[0] == diceArray[1] && diceArray[1] == diceArray[2]) {
+	if (diceArray[0].number == diceArray[1].number && diceArray[1].number == diceArray[2].number) {
 		console.log('Found 3 of Kind!');
-		document.getElementById('3ofakind').innerHTML = '3 of a Kind';
+		document.getElementById('threeoakScoreButton').disabled = false;
 		return true;
-	} else if (diceArray[1] == diceArray[2] && diceArray[2] == diceArray[3]) {
+	} else if (diceArray[1].number == diceArray[2].number && diceArray[2].number == diceArray[3].number) {
 		console.log('Found 3 of Kind!');
-		document.getElementById('3ofakind').innerHTML = '3 of a Kind';
+		document.getElementById('threeoakScoreButton').disabled = false;
 		return true;
-	} else if (diceArray[2] == diceArray[3] && diceArray[3] == diceArray[4]) {
+	} else if (diceArray[2].number == diceArray[3].number && diceArray[3].number == diceArray[4].number) {
 		console.log('Found 3 of Kind!');
-		document.getElementById('3ofakind').innerHTML = '3 of a Kind';
+		document.getElementById('threeoakScoreButton').disabled = false;
 		return true;
 	} else {
-		document.getElementById('3ofakind').innerHTML = null;
 		return false;
 	}
 }
 
+function scoreThreeOAK() {
+	// Sum of all dice
+	var sum = 0;
+	for (var i = 0; i < 5; i++) {
+		sum += diceArray[i].number;
+	}
+	totalScore += sum;
+	console.log('User won ' + sum + ' points with a 3OAK!');
+	updateScore();
+	// Function for board reset
+	resetBoard();
+	document.getElementById('rollNumber').disabled = false;
+}
+
 function isFourOfKind(diceArray) {
-	if (diceArray[0] == diceArray[1] && diceArray[1] == diceArray[2] && diceArray[2] == diceArray[3]) {
+	if (
+		diceArray[0].number == diceArray[1].number &&
+		diceArray[1].number == diceArray[2].number &&
+		diceArray[2].number == diceArray[3].number
+	) {
 		console.log('Found 4 of Kind!');
-		document.getElementById('4ofakind').innerHTML = '4 of a Kind';
+		document.getElementById('fouroakScoreButton').disabled = false;
 		return true;
-	} else if (diceArray[1] == diceArray[2] && diceArray[2] == diceArray[3] && diceArray[3] == diceArray[4]) {
+	} else if (
+		diceArray[1].number == diceArray[2].number &&
+		diceArray[2].number == diceArray[3].number &&
+		diceArray[3].number == diceArray[4].number
+	) {
 		console.log('Found 4 of Kind!');
-		document.getElementById('4ofakind').innerHTML = '4 of a Kind';
+		document.getElementById('fouroakScoreButton').disabled = false;
 		return true;
 	} else {
-		document.getElementById('4ofakind').innerHTML = null;
 		return false;
 	}
+}
+
+function scoreFourOAK() {
+	// Sum of all dice
+	var sum = 0;
+	for (var i = 0; i < 5; i++) {
+		sum += diceArray[i].number;
+	}
+	totalScore += sum;
+	updateScore();
+	console.log('User won ' + sum + ' points with a 4OAK!');
+	// Function for board reset
+	resetBoard();
+	document.getElementById('rollNumber').disabled = false;
 }
 
 function isSmallStraight(diceArray) {
 	// Small straight is Sequence of 4
-	if (diceArray[1] == diceArray[0] + 1 && diceArray[2] == diceArray[1] + 1 && diceArray[3] == diceArray[2] + 1) {
-		console.log('Small straight!');
-		document.getElementById('smallstraight').innerHTML = 'Small Straight';
-		return true;
-	} else if (
-		diceArray[2] == diceArray[1] + 1 &&
-		diceArray[3] == diceArray[2] + 1 &&
-		diceArray[4] == diceArray[3] + 1
+	if (
+		diceArray[1].number == diceArray[0].number + 1 &&
+		diceArray[2].number == diceArray[1].number + 1 &&
+		diceArray[3].number == diceArray[2].number + 1
 	) {
 		console.log('Small straight!');
-		document.getElementById('smallstraight').innerHTML = 'Small Straight';
+		document.getElementById('ssScoreButton').disabled = false;
+		return true;
+	} else if (
+		diceArray[2].number == diceArray[1].number + 1 &&
+		diceArray[3].number == diceArray[2].number + 1 &&
+		diceArray[4].number == diceArray[3].number + 1
+	) {
+		console.log('Small straight!');
+		document.getElementById('ssScoreButton').disabled = false;
 		return true;
 	} else {
-		document.getElementById('smallstraight').innerHTML = null;
 		return false;
 	}
+}
+
+function scoreSS() {
+	// 30 points
+	totalScore += 30;
+	console.log('User won 30 points with a Small Straight!');
+	updateScore();
+	// Function for board reset
+	resetBoard();
+	document.getElementById('rollNumber').disabled = false;
 }
 
 function isLargeStraight(diceArray) {
 	// Large straight is Sequence of 5
 	if (
-		diceArray[1] == diceArray[0] + 1 &&
-		diceArray[2] == diceArray[1] + 1 &&
-		diceArray[3] == diceArray[2] + 1 &&
-		diceArray[4] == diceArray[3] + 1
+		diceArray[1].number == diceArray[0].number + 1 &&
+		diceArray[2].number == diceArray[1].number + 1 &&
+		diceArray[3].number == diceArray[2].number + 1 &&
+		diceArray[4].number == diceArray[3].number + 1
 	) {
 		console.log('Large straight!');
-		document.getElementById('largestraight').innerHTML = 'Large Straight';
+		document.getElementById('lsScoreButton').disabled = false;
 		return true;
 	} else {
-		document.getElementById('largestraight').innerHTML = null;
 		return false;
 	}
 }
 
+function scoreLS() {
+	// 30 points
+	totalScore += 30;
+	console.log('User won 30 points with a Large Straight!');
+	updateScore();
+	// Function for board reset
+	resetBoard();
+	document.getElementById('rollNumber').disabled = false;
+}
+
 function isYahtzee(diceArray) {
 	if (
-		diceArray[0] == diceArray[1] &&
-		diceArray[1] == diceArray[2] &&
-		diceArray[2] == diceArray[3] &&
-		diceArray[3] == diceArray[4]
+		diceArray[0].number == diceArray[1].number &&
+		diceArray[1].number == diceArray[2].number &&
+		diceArray[2].number == diceArray[3].number &&
+		diceArray[3].number == diceArray[4].number
 	) {
 		console.log('Yahtzee!!');
 		document.getElementById('yahtzee').innerHTML = 'Yahtzee!';
@@ -108,90 +235,204 @@ function chance(diceArray) {
 	return amount;
 }
 
+function scoreChance() {
+	// Sum of all dice
+	var sum = 0;
+	for (var i = 0; i < 5; i++) {
+		sum += diceArray[i].number;
+	}
+	totalScore += sum;
+	console.log('User won ' + sum + ' points with a Chance!');
+	updateScore();
+	// Function for board reset
+	resetBoard();
+	document.getElementById('rollNumber').disabled = false;
+}
+
+function selectDie(die) {
+	// Check to see if button is selected due to color
+	// If orange, unselected.  If yellow, selected
+	var dieButton = document.getElementById('dieButton' + die);
+	console.log("You've selected die " + die);
+
+	if (dieOneSelect == false) {
+		die.style.backgroundColor = '#f6cd61';
+		dieOneSelect = true;
+	} else {
+		die.style.backgroundColor = '#fe8a71';
+		dieOneSelect = false;
+	}
+}
+
+function getRandomNumber() {
+	return Math.floor(Math.random() * 6 + 1);
+}
+
+function setDie(diceArray) {
+	document.getElementById('dice-one').src = 'img/' + diceArray[0].number + '.png';
+	document.getElementById('dice-two').src = 'img/' + diceArray[1].number + '.png';
+	document.getElementById('dice-three').src = 'img/' + diceArray[2].number + '.png';
+	document.getElementById('dice-four').src = 'img/' + diceArray[3].number + '.png';
+	document.getElementById('dice-five').src = 'img/' + diceArray[4].number + '.png';
+}
+
+function getNewDie(diceArray) {
+	// For each die not held, get new number
+	var j = 1;
+	for (var i = 0; i < diceArray.length; i++) {
+		if (diceArray[i].held == false) {
+			diceArray[i].number = getRandomNumber();
+			console.log(diceArray[i].name + ' new number is ' + diceArray[i].number);
+			j++;
+		}
+	}
+
+	// Set dice images
+	setDie(diceArray);
+}
+
+function disableAllScoreButtons(scoreButtonArray) {
+	for (var i = 0; i < scoreButtonArray.length; i++) {
+		document.getElementById(scoreButtonArray[i]).disabled = true;
+	}
+}
+
 function rollDice() {
-	// Get random numbers
-	const num1 = Math.floor(Math.random() * 6 + 1);
-	const num2 = Math.floor(Math.random() * 6 + 1);
-	const num3 = Math.floor(Math.random() * 6 + 1);
-	const num4 = Math.floor(Math.random() * 6 + 1);
-	const num5 = Math.floor(Math.random() * 6 + 1);
-	console.log('Dice one is ' + num1);
-	console.log('Dice two is ' + num2);
-	console.log('Dice three is ' + num3);
-	console.log('Dice four is ' + num4);
-	console.log('Dice five is ' + num5);
+	// Show current roll on-screen
+	document.getElementById('rollNumber').innerHTML = 'Roll: ' + currentRoll;
 
-	// Set img in HTML
-	document.getElementById('dice-one').src = 'img/' + num1 + '.png';
-	document.getElementById('dice-two').src = 'img/' + num2 + '.png';
-	document.getElementById('dice-three').src = 'img/' + num3 + '.png';
-	document.getElementById('dice-four').src = 'img/' + num4 + '.png';
-	document.getElementById('dice-five').src = 'img/' + num5 + '.png';
+	// First roll
+	if (currentRoll == 1) {
+		console.log('First roll');
+		console.log(diceArray);
 
-	// Check possible scores
-	var diceArray = [ num1, num2, num3, num4, num5 ];
+		// Set dice images on-screen and show possible scores
+		setDie(diceArray);
+		possibleScores(diceArray);
 
-	possibleScores(diceArray);
+		// Allow user to hold die for next roll
+	}
+
+	if (currentRoll == 2) {
+		console.log('#######################');
+		console.log('Second roll');
+
+		console.log(diceArray);
+
+		// Check for held die
+		for (var i = 0; i < checkboxArray.length; i++) {
+			var checkbox = document.getElementById(checkboxArray[i]);
+			if (checkbox.checked == true) {
+				diceArray[i].held = true;
+				console.log('Holding ' + checkboxArray[i]);
+			}
+		}
+
+		// Get new die for unheld die
+		getNewDie(diceArray);
+		possibleScores(diceArray);
+	}
+
+	// If third roll, freeze all die, select scoring category and restart game flow
+	if (currentRoll == 3) {
+		console.log('#######################');
+		console.log('Final roll!');
+
+		getNewDie(diceArray);
+		possibleScores(diceArray);
+
+		// Check for held die
+		for (var i = 0; i < checkboxArray.length; i++) {
+			var checkbox = document.getElementById(checkboxArray[i]);
+			if (checkbox.checked == true) {
+				diceArray[i].held = true;
+				console.log('Holding ' + checkboxArray[i]);
+			}
+		}
+
+		// Get new die for unheld die
+		getNewDie(diceArray);
+		possibleScores(diceArray);
+
+		// Final scoring for round
+		// Change roll button text and disable until scoring is chosen
+		document.getElementById('rollNumber').innerHTML = 'Next Round';
+		document.getElementById('rollNumber').disabled = true;
+		// Need user to click on scoring category button
+	}
+
+	if (currentRoll == 4) {
+		// Initiate new dice roll
+		resetBoard();
+
+		// User will pick a score category here
+	}
+
+	// Increment currentRoll
+	currentRoll++;
+}
+
+function resetBoard() {
+	console.log('Initiating new dice roll');
+	for (i = 0; i < diceArray.length; i++) {
+		var num = getRandomNumber();
+		var j = i + 1;
+		diceArray[i].number = num;
+		diceArray[i].held = false; // Set held back to false
+	}
+
+	setDie(diceArray);
+
+	console.log('Resetting checkboxes');
+	for (var i = 0; i < checkboxArray.length; i++) {
+		var checkbox = document.getElementById(checkboxArray[i]);
+		checkbox.checked = false;
+	}
+
+	// Roll button text change
+
+	currentRoll = 1;
 }
 
 function possibleScores(diceArray) {
-	console.log(diceArray);
+	// Copy diceArray to tempArray for sorting
+	var tempArray = diceArray.slice();
 
-	// Count each number
-	var ones = diceArray.filter((x) => x === 1).length;
-	var twos = diceArray.filter((x) => x === 2).length;
-	var threes = diceArray.filter((x) => x === 3).length;
-	var fours = diceArray.filter((x) => x === 4).length;
-	var fives = diceArray.filter((x) => x === 5).length;
-	var sixes = diceArray.filter((x) => x === 6).length;
+	// Sort array by number
+	tempArray.sort((a, b) => {
+		return a.number - b.number;
+	});
 
-	// Sort array
-	diceArray.sort();
-	console.log('Sorted: ' + diceArray);
+	// Disable all score buttons
+	disableAllScoreButtons(scoreButtonArray);
+
+	// Scoring categories for individual numbers
+	for (var i = 0; i < diceArray.length; i++) {
+		if (diceArray[i].number == 1) {
+			document.getElementById('oneScoreButton').disabled = false;
+		} else if (diceArray[i].number == 2) {
+			document.getElementById('twoScoreButton').disabled = false;
+		} else if (diceArray[i].number == 3) {
+			document.getElementById('threeScoreButton').disabled = false;
+		} else if (diceArray[i].number == 4) {
+			document.getElementById('fourScoreButton').disabled = false;
+		} else if (diceArray[i].number == 5) {
+			document.getElementById('fiveScoreButton').disabled = false;
+		} else if (diceArray[i].number == 6) {
+			document.getElementById('sixScoreButton').disabled = false;
+		}
+	}
 
 	// Check for each type of score
-	var fhStatus = isFullHouse(diceArray);
-	var threeOfKindStatus = isThreeOfKind(diceArray);
-	var fourOfKindStatus = isFourOfKind(diceArray);
-	var smStrStatus = isSmallStraight(diceArray);
-	var lgStrStatus = isLargeStraight(diceArray);
-	var yStatus = isYahtzee(diceArray);
-	var chanceStatus = chance(diceArray);
-
-	// Update scoreboard
-	// ScoreArray is all items set to true
-	var scoreArray = [ fhStatus, threeOfKindStatus, fourOfKindStatus, smStrStatus, lgStrStatus, yStatus, chanceStatus ];
-	scoreArray = scoreArray.filter((x) => x === true);
-	updateScore(scoreArray);
-
-	// Console Logging
-	console.log('Full house: ' + fhStatus);
-	console.log('3 of Kind: ' + threeOfKindStatus);
-	console.log('4 of Kind: ' + fourOfKindStatus);
-	console.log('Small Straight: ' + smStrStatus);
-	console.log('Large Straight: ' + lgStrStatus);
-	console.log('Yahtzee: ' + yStatus);
-	console.log('Chance: ' + chanceStatus);
+	var fhStatus = isFullHouse(tempArray);
+	var threeOfKindStatus = isThreeOfKind(tempArray);
+	var fourOfKindStatus = isFourOfKind(tempArray);
+	var smStrStatus = isSmallStraight(tempArray);
+	var lgStrStatus = isLargeStraight(tempArray);
+	var yStatus = isYahtzee(tempArray);
+	var chanceStatus = chance(tempArray);
 }
 
-function updateScore(scoreArray) {
-	console.log(scoreArray);
-	// document.getElementById('fullhouse').innerHTML = 'Full House: ' + scoreArray[0];
-	// document.getElementById('3ofakind').innerHTML = '3 of a Kind: ' + scoreArray[1];
-	// document.getElementById('4ofakind').innerHTML = '4 of a Kind: ' + scoreArray[2];
-	// document.getElementById('smallstraight').innerHTML = 'Small Straight: ' + scoreArray[3];
-	// document.getElementById('largestraight').innerHTML = 'Large Straight: ' + scoreArray[4];
+function updateScore() {
+	document.getElementById('totalScore').innerHTML = 'Total Score: ' + totalScore;
 }
-
-// function highlightDice(dice) {
-// 	if (diceOneState == 'off') {
-// 		console.log('Turning ' + dice + ' on');
-// 		diceOneState = 'on';
-// 		document.getElementById('dice-' + dice).style.boxShadow = '10px 12px 12px 10px #f83';
-// 	}
-// 	if (diceOneState == 'on') {
-// 		console.log('Turning ' + dice + ' off');
-// 		diceOneState = 'off';
-// 		document.getElementById('dice-' + dice).style.boxShadow = null;
-// 	}
-// }

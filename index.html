@@ -16,23 +16,23 @@
         <img id="dice-five" src="img/5.png">
       </div>
     <div class="centerSection">
-      <input type="checkbox" id="dieCheck1"><label id="labelDie" for="dieCheck1"></label>
-      <input type="checkbox" id="dieCheck2"><label id="labelDie" for="dieCheck2"></label>
-      <input type="checkbox" id="dieCheck3"><label id="labelDie" for="dieCheck3"></label>
-      <input type="checkbox" id="dieCheck4"><label id="labelDie" for="dieCheck4"></label>
-      <input type="checkbox" id="dieCheck5"><label id="labelDie" for="dieCheck5"></label>
+      <input type="checkbox" id="dieCheck1" onchange="checkDieBox(1)"><label id="labelDie" for="dieCheck1"></label>
+      <input type="checkbox" id="dieCheck2" onchange="checkDieBox(2)"><label id="labelDie" for="dieCheck2"></label>
+      <input type="checkbox" id="dieCheck3" onchange="checkDieBox(3)"><label id="labelDie" for="dieCheck3"></label>
+      <input type="checkbox" id="dieCheck4" onchange="checkDieBox(4)"><label id="labelDie" for="dieCheck4"></label>
+      <input type="checkbox" id="dieCheck5" onchange="checkDieBox(5)"><label id="labelDie" for="dieCheck5"></label>
     </div>
     <div class="rightSide">
       <div class=scoreboardHeader">
         <label class="scoreboardHeader">Scoreboard</label>
       </div>
       <div class="scoreboardContent">
-        <button class="oneScoreButton hover" id="oneScoreButton" type="button" disabled>One</button>
-        <button class="twoScoreButton hover" id="twoScoreButton" type="button" disabled>Two</button>
-        <button class="threeScoreButton hover" id="threeScoreButton" type="button" disabled>Three</button>
-        <button class="fourScoreButton hover" id="fourScoreButton" type="button" disabled>Four</button>
-        <button class="fiveScoreButton hover" id="fiveScoreButton" type="button" disabled>Five</button>
-        <button class="sixScoreButton hover" id="sixScoreButton" type="button" disabled>Six</button>
+        <button class="oneScoreButton hover" id="oneScoreButton" type="button" disabled onclick="scoreOne()">One</button>
+        <button class="twoScoreButton hover" id="twoScoreButton" type="button" disabled onclick="scoreTwo()">Two</button>
+        <button class="threeScoreButton hover" id="threeScoreButton" type="button" disabled onclick="scoreThree()">Three</button>
+        <button class="fourScoreButton hover" id="fourScoreButton" type="button" disabled onclick="scoreFour()">Four</button>
+        <button class="fiveScoreButton hover" id="fiveScoreButton" type="button" disabled onclick="scoreFive()">Five</button>
+        <button class="sixScoreButton hover" id="sixScoreButton" type="button" disabled  onclick="scoreSix()">Six</button>
         <button class="fhScoreButton hover" id="fhScoreButton" type="button" disabled onclick="scoreFullHouse()">Full House</button>
         <button class="threeoakScoreButton hover" id="threeoakScoreButton" type="button" disabled onclick="scoreThreeOAK()">3 of Kind</button>
         <button class="fouroakScoreButton hover" id="fouroakScoreButton" type="button" disabled onclick="scoreFourOAK()">4 of Kind</button>

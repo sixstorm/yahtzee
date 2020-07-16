@@ -33,3 +33,7 @@ Still To Do:
   - Dice Selection Items
   - Scoring Category Buttons
 - Email/Telegram Integration - Let me know when you finish a game via Email or Telegram Bot
+
+BUGS
+- Large Straight shows up every time
+- Small straight doesn't work because of repeating numbers (1,2,2,3,4) - Maybe fixed now

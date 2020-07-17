@@ -145,8 +145,9 @@ function scoreOne() {
 	console.log('User won ' + sum + ' points with Ones!');
 	updateScore(sum);
 
-	// Disable scoreStore 'ones'
+	// Disable scoreStore 'ones' and disabled Ones score button
 	scoreStore.find((k) => k.name == 'ones').used = true;
+	document.getElementById('oneScoreButton').disabled = true;
 
 	// Function for board reset
 	resetBoard();
@@ -167,6 +168,7 @@ function scoreTwo() {
 
 	// Disable scoreStore 'twos'
 	scoreStore.find((k) => k.name == 'twos').used = true;
+	document.getElementById('twoScoreButton').disabled = true;
 
 	// Function for board reset
 	resetBoard();
@@ -185,8 +187,9 @@ function scoreThree() {
 	console.log('User won ' + sum + ' points with Threes!');
 	updateScore(sum);
 
-	// Disable scoreStore 'threes'
+	// Disable scoreStore 'threes' and Three score button
 	scoreStore.find((k) => k.name == 'threes').used = true;
+	document.getElementById('threeScoreButton').disabled = true;
 
 	// Function for board reset
 	resetBoard();
@@ -205,8 +208,9 @@ function scoreFour() {
 	console.log('User won ' + sum + ' points with Fours!');
 	updateScore(sum);
 
-	// Disable scoreStore 'fours'
+	// Disable scoreStore 'fours' and Fours score button
 	scoreStore.find((k) => k.name == 'fours').used = true;
+	document.getElementById('fourScoreButton').disabled = true;
 
 	// Function for board reset
 	resetBoard();
@@ -225,8 +229,9 @@ function scoreFive() {
 	console.log('User won ' + sum + ' points with Fives!');
 	updateScore(sum);
 
-	// Disable scoreStore 'fives'
+	// Disable scoreStore 'fives' and Fives score button
 	scoreStore.find((k) => k.name == 'fives').used = true;
+	document.getElementById('fiveScoreButton').disabled = true;
 
 	// Function for board reset
 	resetBoard();
@@ -245,8 +250,9 @@ function scoreSix() {
 	console.log('User won ' + sum + ' points with Sixes!');
 	updateScore(sum);
 
-	// Disable scoreStore 'sixes'
+	// Disable scoreStore 'sixes' and Sixes score button
 	scoreStore.find((k) => k.name == 'sixes').used = true;
+	document.getElementById('sixScoreButton').disabled = true;
 
 	// Function for board reset
 	resetBoard();
@@ -275,15 +281,30 @@ function isFullHouse(diceArray) {
 
 function scoreFullHouse() {
 	// 25 points
-	console.log('User won 25 points with a Full House!');
-	updateScore(25);
+	// Validation
+	var diceArraySorted = diceArray.slice();
+	diceArraySorted.sort((a, b) => {
+		return a.number - b.number;
+	});
+	var valid = isFullHouse(diceArraySorted);
+	console.log(diceArraySorted);
+	if (valid) {
+		console.log('User won 25 points with a Full House!');
+		updateScore(25);
 
-	// Disable scoreStore 'fullhouse'
-	scoreStore.find((k) => k.name == 'fullhouse').used = true;
+		// Disable scoreStore 'fullhouse' and Full House score button
+		scoreStore.find((k) => k.name == 'fullhouse').used = true;
+		document.getElementById('fhScoreButton').disabled = true;
 
-	// Function for board reset
-	resetBoard();
-	document.getElementById('rollNumber').disabled = false;
+		// Function for board reset
+		resetBoard();
+		document.getElementById('rollNumber').disabled = false;
+	} else {
+		console.log("This isn't a Full House yo...");
+		document.getElementById('fhScoreButton').disabled = true;
+		resetBoard();
+		document.getElementById('rollNumber').disabled = false;
+	}
 }
 
 function isThreeOfKind(diceArray) {
@@ -300,20 +321,34 @@ function isThreeOfKind(diceArray) {
 
 function scoreThreeOAK() {
 	// Sum of all dice
-	var sum = 0;
-	for (var i = 0; i < 5; i++) {
-		sum += diceArray[i].number;
+	// Validation
+	var diceArraySorted = diceArray.slice();
+	diceArraySorted.sort((a, b) => {
+		return a.number - b.number;
+	});
+	var valid = isThreeOfKind(diceArraySorted);
+	if (valid) {
+		var sum = 0;
+		for (var i = 0; i < 5; i++) {
+			sum += diceArray[i].number;
+		}
+
+		console.log('User won ' + sum + ' points with a 3OAK!');
+		updateScore(sum);
+
+		// Disable scoreStore '3oak' and 3OAK score button
+		scoreStore.find((k) => k.name == '3oak').used = true;
+		document.getElementById('threeoakScoreButton').disabled = true;
+
+		// Function for board reset
+		resetBoard();
+		document.getElementById('rollNumber').disabled = false;
+	} else {
+		console.log("This isn't a 3OAK yo...");
+		document.getElementById('threeoakScoreButton').disabled = true;
+		resetBoard();
+		document.getElementById('rollNumber').disabled = false;
 	}
-
-	console.log('User won ' + sum + ' points with a 3OAK!');
-	updateScore(sum);
-
-	// Disable scoreStore '3oak'
-	scoreStore.find((k) => k.name == '3oak').used = true;
-
-	// Function for board reset
-	resetBoard();
-	document.getElementById('rollNumber').disabled = false;
 }
 
 function isFourOfKind(diceArray) {
@@ -336,30 +371,51 @@ function isFourOfKind(diceArray) {
 
 function scoreFourOAK() {
 	// Sum of all dice
-	var sum = 0;
-	for (var i = 0; i < 5; i++) {
-		sum += diceArray[i].number;
+	// Validation
+	var diceArraySorted = diceArray.slice();
+	diceArraySorted.sort((a, b) => {
+		return a.number - b.number;
+	});
+	var valid = isFourOfKind(diceArraySorted);
+	if (valid) {
+		var sum = 0;
+		for (var i = 0; i < 5; i++) {
+			sum += diceArray[i].number;
+		}
+		updateScore(sum);
+
+		// Disable scoreStore '4oak' and 4OAK score button
+		scoreStore.find((k) => k.name == '4oak').used = true;
+		document.getElementById('fouroakScoreButton').disabled = true;
+
+		console.log('User won ' + sum + ' points with a 4OAK!');
+		// Function for board reset
+		resetBoard();
+		document.getElementById('rollNumber').disabled = false;
+	} else {
+		console.log("This isn't a 4OAK yo...");
+		document.getElementById('fouroakScoreButton').disabled = true;
+		resetBoard();
+		document.getElementById('rollNumber').disabled = false;
 	}
-	updateScore(sum);
-
-	// Disable scoreStore '4oak'
-	scoreStore.find((k) => k.name == '4oak').used = true;
-
-	console.log('User won ' + sum + ' points with a 4OAK!');
-	// Function for board reset
-	resetBoard();
-	document.getElementById('rollNumber').disabled = false;
 }
 
 function isSmallStraight(diceArray) {
 	// Small straight is Sequence of 4
 	// Pull unique numbers from sorted array
 	const diceArrayUnique = [ ...new Set(diceArray.map((x) => x.number)) ];
+	console.log(diceArrayUnique);
+	var diceArraySorted = diceArrayUnique.slice();
+	diceArraySorted.sort((a, b) => {
+		return a - b;
+	});
+	console.log('Final sorted for SS');
+	console.log(diceArraySorted);
 
 	if (
-		diceArrayUnique[1] == diceArrayUnique[0] + 1 &&
-		diceArrayUnique[2] == diceArrayUnique[1] + 1 &&
-		diceArrayUnique[3] == diceArrayUnique[2] + 1
+		diceArraySorted[1] == diceArraySorted[0] + 1 &&
+		diceArraySorted[2] == diceArraySorted[1] + 1 &&
+		diceArraySorted[3] == diceArraySorted[2] + 1
 	) {
 		return true;
 	} else {
@@ -369,25 +425,39 @@ function isSmallStraight(diceArray) {
 
 function scoreSS() {
 	// 30 points
-	console.log('User won 30 points with a Small Straight!');
-	updateScore(30);
+	// Validation
+	var valid = isSmallStraight(diceArray);
+	if (valid) {
+		console.log('User won 30 points with a Small Straight!');
+		updateScore(30);
 
-	// Disable scoreStore 'smallstraight'
-	scoreStore.find((k) => k.name == 'smallstraight').used = true;
+		// Disable scoreStore 'smallstraight' and Small Straight score button
+		scoreStore.find((k) => k.name == 'smallstraight').used = true;
+		document.getElementById('ssScoreButton').disabled = true;
 
-	// Function for board reset
-	resetBoard();
-	document.getElementById('rollNumber').disabled = false;
+		// Function for board reset
+		resetBoard();
+		document.getElementById('rollNumber').disabled = false;
+	} else {
+		console.log("This isn't a Small Straight yo...");
+		document.getElementById('ssScoreButton').disabled = true;
+		resetBoard();
+		document.getElementById('rollNumber').disabled = false;
+	}
 }
 
 function isLargeStraight(diceArray) {
-	console.log('Checking for LS');
 	// Large straight is Sequence of 5
+	diceArray.sort((a, b) => {
+		return a.number - b.number;
+	});
+	console.log('Large straight sorted:');
+	console.log(diceArray);
 	if (
-		diceArray[1].number == diceArray[0].number + 1 &&
-		diceArray[2].number == diceArray[1].number + 1 &&
-		diceArray[3].number == diceArray[2].number + 1 &&
-		diceArray[4].number == diceArray[3].number + 1
+		diceArray[1] == diceArray[0] + 1 &&
+		diceArray[2] == diceArray[1] + 1 &&
+		diceArray[3] == diceArray[2] + 1 &&
+		diceArray[4] == diceArray[3] + 1
 	) {
 		return true;
 	} else {
@@ -397,15 +467,25 @@ function isLargeStraight(diceArray) {
 
 function scoreLS() {
 	// 40 points
-	console.log('User won 40 points with a Large Straight!');
-	updateScore(40);
+	// Validation
+	var valid = isLargeStraight(diceArray);
+	if (valid) {
+		console.log('User won 40 points with a Large Straight!');
+		updateScore(40);
 
-	// Disable scoreStore 'largestraight'
-	scoreStore.find((k) => k.name == 'largestraight').used = true;
+		// Disable scoreStore 'largestraight' and Large Straight score button
+		scoreStore.find((k) => k.name == 'largestraight').used = true;
+		document.getElementById('lsScoreButton').disabled = true;
 
-	// Function for board reset
-	resetBoard();
-	document.getElementById('rollNumber').disabled = false;
+		// Function for board reset
+		resetBoard();
+		document.getElementById('rollNumber').disabled = false;
+	} else {
+		console.log("This isn't a Large Straight yo...");
+		document.getElementById('lsScoreButton').disabled = true;
+		resetBoard();
+		document.getElementById('rollNumber').disabled = false;
+	}
 }
 
 function isYahtzee(diceArray) {
@@ -417,7 +497,8 @@ function isYahtzee(diceArray) {
 	) {
 		updateScore(50);
 		console.log('Yahtzee!!');
-		document.getElementById('yahtzee').innerHTML = 'Yahtzee!';
+		resetBoard();
+		document.getElementById('rollNumber').disabled = false;
 		return true;
 	} else {
 		return false;
@@ -429,8 +510,9 @@ function chance(diceArray) {
 		return a + b;
 	}, 0);
 
-	// Disable scoreStore 'chance'
+	// Disable scoreStore 'chance' and Chance score button
 	scoreStore.find((k) => k.name == 'chance').used = true;
+	document.getElementById('chanceScoreButton').disabled = true;
 
 	return amount;
 }
@@ -442,6 +524,11 @@ function scoreChance() {
 		sum += diceArray[i].number;
 	}
 	console.log('User won ' + sum + ' points with a Chance!');
+
+	// Disable scoreStore 'chance' and Chance score button
+	scoreStore.find((k) => k.name == 'chance').used = true;
+	document.getElementById('chanceScoreButton').disabled = true;
+
 	updateScore(sum);
 	// Function for board reset
 	resetBoard();
@@ -496,27 +583,41 @@ function rollDice() {
 	// Show current roll on-screen
 	document.getElementById('rollNumber').innerHTML = 'Roll: ' + currentRoll;
 
+	console.log(scoreStore);
+
+	// Check for game over
+	isGameOver = scoreStore.every((x) => x.used === true);
+
 	// First roll
-	if (currentRoll == 1) {
+	if (currentRoll == 1 && isGameOver == false) {
+		console.log('Game over: ' + isGameOver);
 		console.log('First roll');
 		console.log(diceArray);
 
 		// Set dice images on-screen and show possible scores
 		setDie(diceArray);
-		possibleScores(diceArray);
 
-		// Allow user to hold die for next roll
+		// Check for Yahtzee
+		if (isYahtzee(diceArray)) {
+			updateScore(sum);
+			resetBoard();
+			currentRoll = 1;
+		}
 	}
 
 	if (currentRoll == 2) {
 		console.log('#######################');
 		console.log('Second roll');
 
-		console.log(diceArray);
-
 		// Get new die for unheld die
 		getNewDie(diceArray);
-		possibleScores(diceArray);
+
+		// Check for Yahtzee
+		if (isYahtzee(diceArray)) {
+			updateScore(sum);
+			resetBoard();
+			currentRoll = 1;
+		}
 	}
 
 	// If third roll, freeze all die, select scoring category and restart game flow
@@ -525,11 +626,13 @@ function rollDice() {
 		console.log('Final roll!');
 
 		getNewDie(diceArray);
-		possibleScores(diceArray);
 
-		// Get new die for unheld die
-		getNewDie(diceArray);
-		possibleScores(diceArray);
+		// Check for Yahtzee
+		if (isYahtzee(diceArray)) {
+			updateScore(sum);
+			resetBoard();
+			currentRoll = 1;
+		}
 
 		// Final scoring for round
 		// Change roll button text and disable until scoring is chosen
@@ -545,6 +648,11 @@ function rollDice() {
 		// User will pick a score category here
 	}
 
+	if (currentRoll == 1 && isGameOver == true) {
+		console.log('Game Over');
+		console.log('Total score: ' + totalScore);
+	}
+
 	// Increment currentRoll
 	currentRoll++;
 }
@@ -553,7 +661,6 @@ function resetBoard() {
 	console.log('Initiating new dice roll');
 	for (i = 0; i < diceArray.length; i++) {
 		var num = getRandomNumber();
-		var j = i + 1;
 		diceArray[i].number = num;
 		diceArray[i].held = false; // Set held back to false
 	}
@@ -569,97 +676,6 @@ function resetBoard() {
 	// Roll button text change
 	document.getElementById('rollNumber').innerHTML = 'Next Round';
 	currentRoll = 1;
-}
-
-function possibleScores(diceArray) {
-	// Copy diceArray to tempArray and sort by number for score checking
-	console.log('Sorting array');
-	var diceArraySorted = diceArray.slice();
-	diceArraySorted.sort((a, b) => {
-		return a.number - b.number;
-	});
-
-	// const diceArrayUnique = [ ...new Set(diceArraySorted.map((x) => x.number)) ];
-
-	// Disable all score buttons so that the possible scoring category
-	// buttons can be enabled
-	disableAllScoreButtons(scoreStore);
-
-	// Enable buttons for scoring categories
-	// Individual numbers
-
-	if (diceArray.find((k) => k.number == 1) && scoreStore.find((k) => k.name == 'ones').used == false) {
-		document.getElementById('oneScoreButton').disabled = false;
-		console.log('I found ones!');
-	}
-
-	if (diceArray.find((k) => k.number == 2) && scoreStore.find((k) => k.name == 'twos').used == false) {
-		document.getElementById('twoScoreButton').disabled = false;
-		console.log('I found twos!');
-	}
-
-	if (diceArray.find((k) => k.number == 3) && scoreStore.find((k) => k.name == 'threes').used == false) {
-		document.getElementById('threeScoreButton').disabled = false;
-		console.log('I found threes!');
-	}
-
-	if (diceArray.find((k) => k.number == 4) && scoreStore.find((k) => k.name == 'fours').used == false) {
-		document.getElementById('fourScoreButton').disabled = false;
-		console.log('I found fours!');
-	}
-
-	if (diceArray.find((k) => k.number == 5) && scoreStore.find((k) => k.name == 'fives').used == false) {
-		document.getElementById('fiveScoreButton').disabled = false;
-		console.log('I found fives!');
-	}
-
-	if (diceArray.find((k) => k.number == 6) && scoreStore.find((k) => k.name == 'sixes').used == false) {
-		document.getElementById('sixScoreButton').disabled = false;
-		console.log('I found sixes!');
-	}
-
-	// Special scoring categories
-	if (isFullHouse(diceArraySorted) && scoreStore.find((k) => k.name == 'fullhouse').used == false) {
-		document.getElementById('fhScoreButton').disabled = false;
-		console.log('Found Full House');
-	}
-
-	if (isThreeOfKind(diceArraySorted) && scoreStore.find((k) => k.name == '3oak').used == false) {
-		console.log('Found 3 of Kind!');
-		document.getElementById('threeoakScoreButton').disabled = false;
-	}
-
-	if (isFourOfKind(diceArraySorted) && scoreStore.find((k) => k.name == '4oak').used == false) {
-		console.log('Found 4 of Kind!');
-		document.getElementById('fouroakScoreButton').disabled = false;
-	}
-
-	if (isSmallStraight(diceArraySorted) && scoreStore.find((k) => k.name == 'smallstraight').used == false) {
-		console.log('Found Small straight!');
-		document.getElementById('ssScoreButton').disabled = false;
-	} else {
-		document.getElementById('ssScoreButton').disabled = true;
-	}
-
-	if (isLargeStraight(diceArraySorted) && scoreStore.find((k) => k.name == 'largestraight').used == false) {
-		console.log('Found Large straight!');
-		document.getElementById('lsScoreButton').disabled = false;
-	} else {
-		document.getElementById('lsScoreButton').disabled = true;
-	}
-
-	if (scoreStore.find((k) => k.name == 'chance').used == false) {
-		console.log('Chance!');
-		document.getElementById('lsScoreButton').disabled = false;
-	}
-
-	// var fhStatus = isFullHouse(tempArray);
-	// var threeOfKindStatus = isThreeOfKind(tempArray);
-	// var fourOfKindStatus = isFourOfKind(tempArray);
-	// var smStrStatus = isSmallStraight(tempArray);
-	// var lgStrStatus = isLargeStraight(tempArray);
-	// var yStatus = isYahtzee(tempArray);
-	// var chanceStatus = chance(tempArray);
 }
 
 function updateScore(score) {
